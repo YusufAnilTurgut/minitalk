@@ -1,41 +1,29 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   server.c                                           :+:      :+:    :+:   */
+/*   ft_print_ptr.c                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: yturgut <yturgut@student.42istanbul.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2023/06/21 00:00:52 by yturgut           #+#    #+#             */
-/*   Updated: 2023/06/21 14:22:12 by yturgut          ###   ########.fr       */
+/*   Created: 2023/02/13 13:55:20 by yturgut           #+#    #+#             */
+/*   Updated: 2023/02/13 14:11:01 by yturgut          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "minitalk.h"
+#include "ft_printf.h"
 
-void	signal_handler(int signal)
+int	ft_print_ptr(unsigned long num, char format)
 {
-	static char	c;
-	static int	max = 128;
+	int	count;
 
-	if (signal == SIGUSR2) //1 ise sigusr2 0 ise sigusr 0 // 0100 0001
-		c += max;
-	max /= 2;
-	if (max == 0)
+	count = 0;
+	count += ft_printstr("0x");
+	if (num == 0)
+		count += ft_putchar('0');
+	else
 	{
-		write(1, &c, 1);
-		c = 0;
-		max = 128;
+		ft_print_hex(num, format);
+		count += ft_hex_len(num);
 	}
-}
-
-int	main(void)
-{
-	signal(SIGUSR1, signal_handler);
-	signal(SIGUSR2, signal_handler);
-	ft_printf("Server PID: %d\n", getpid());
-	while (1)
-	{
-		sleep(1);
-	}
-	return (0);
+	return (count);
 }

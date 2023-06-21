@@ -1,41 +1,31 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   server.c                                           :+:      :+:    :+:   */
+/*   ft_print_str.c                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: yturgut <yturgut@student.42istanbul.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2023/06/21 00:00:52 by yturgut           #+#    #+#             */
-/*   Updated: 2023/06/21 14:22:12 by yturgut          ###   ########.fr       */
+/*   Created: 2023/02/13 13:55:28 by yturgut           #+#    #+#             */
+/*   Updated: 2023/02/13 14:11:23 by yturgut          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "minitalk.h"
+#include "ft_printf.h"
 
-void	signal_handler(int signal)
+int	ft_printstr(char *str)
 {
-	static char	c;
-	static int	max = 128;
+	int	i;
 
-	if (signal == SIGUSR2) //1 ise sigusr2 0 ise sigusr 0 // 0100 0001
-		c += max;
-	max /= 2;
-	if (max == 0)
+	i = 0;
+	if (!str)
 	{
-		write(1, &c, 1);
-		c = 0;
-		max = 128;
+		ft_printstr("(null)");
+		return (6);
 	}
-}
-
-int	main(void)
-{
-	signal(SIGUSR1, signal_handler);
-	signal(SIGUSR2, signal_handler);
-	ft_printf("Server PID: %d\n", getpid());
-	while (1)
+	while (str[i])
 	{
-		sleep(1);
+		write(1, &str[i], 1);
+		i++;
 	}
-	return (0);
+	return (i);
 }

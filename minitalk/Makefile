@@ -13,26 +13,28 @@ CC = gcc
 
 CFLAGS = -Wall -Werror -Wextra
 
-all: $(SERVER) $(CLIENT) $(PRINTF)
+all: PRINTF $(SERVER) $(CLIENT)
 
 bonus: all $(CLIENT_BONUS) $(SERVER_BONUS) $(PRINTF)
 
-$PRINTF:
-		make -C ./utils/ft_printf
+PRINTF:
+	@make -C ./utils/ft_printf
 
 $(CLIENT):
-		$(CC) $(CFLAGS) $(SRC_client) ./utils/ft_printf/libftprintf.a -o $(CLIENT)
+	@$(CC) $(CFLAGS) $(SRC_client) ./utils/ft_printf/libftprintf.a -o $(CLIENT)
 $(SERVER):
-		$(CC) $(CFLAGS) $(SRC_server) ./utils/ft_printf/libftprintf.a -o $(SERVER)
+	@$(CC) $(CFLAGS) $(SRC_server) ./utils/ft_printf/libftprintf.a -o $(SERVER)
 $(CLIENT_BONUS):
-		$(CC) $(CFLAGS) $(SRC_BONUS_client) ./utils/ft_printf/libftprintf.a -o $(CLIENT_BONUS)
+	@$(CC) $(CFLAGS) $(SRC_BONUS_client) ./utils/ft_printf/libftprintf.a -o $(CLIENT_BONUS)
 $(SERVER_BONUS):
-		$(CC) $(CFLAGS) $(SRC_BONUS_server) ./utils/ft_printf/libftprintf.a -o $(SERVER_BONUS)
+	@$(CC) $(CFLAGS) $(SRC_BONUS_server) ./utils/ft_printf/libftprintf.a -o $(SERVER_BONUS)
 
 clean:
-		@rm -rf $(SERVER) $(CLIENT) $(CLIENT_BONUS) $(SERVER_BONUS)
+	@make clean -C ./utils/ft_printf
+	@rm -rf $(SERVER) $(CLIENT) $(CLIENT_BONUS) $(SERVER_BONUS)
 
 fclean: clean
+	@make fclean -C ./utils/ft_printf
 
 re: fclean all
 
